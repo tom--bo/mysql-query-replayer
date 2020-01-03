@@ -1,7 +1,5 @@
 # MySQL-query-replayer (MQR)
 
-[Japanese version README(日本語)](README_ja.md)
-
 ![MQR1](https://github.com/tom--bo/mysql-query-replayer/blob/master/images/multi_agent_mode.png)
 
 MQRはObserver,Queuing MW(Redis), Applyerからなる。

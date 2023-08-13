@@ -43,7 +43,12 @@ func (a *managerApplyer) start() {
 					fmt.Println(ips[1] + " is specified as ignoring host")
 					continue
 				}
-				go a.addHostRequest(connCnt, k)
+				go func() {
+					err = a.addHostRequest(connCnt, k)
+					if err != nil {
+						fmt.Printf("%v\n", err)
+					}
+				}()
 				connCnt = (connCnt + 1) % agentCnt
 			}
 		}
@@ -61,6 +66,10 @@ func (a *managerApplyer) addHostRequest(num int, key string) error {
 		n := (num + i) % agentCnt
 		url := "http://" + a.agents[n] + "/addHost/" + key
 		resp, err := http.Post(url, "", nil)
+		if err != nil {
+			panic(err)
+		}
+
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			panic(err)

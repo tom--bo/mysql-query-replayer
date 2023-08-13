@@ -54,7 +54,10 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 		}
 
 		r = rpool.Get()
-		r.Do("LTRIM", key, l, -1)
+		_, err = r.Do("LTRIM", key, l, -1)
+		if err != nil {
+			fmt.Println(err)
+		}
 		r.Close()
 
 		tmp := []commandData{}

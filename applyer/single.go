@@ -92,7 +92,10 @@ func (a *singleApplyer) retrieveLoop() {
 				continue
 			}
 			r = rpool.Get()
-			r.Do("LTRIM", k, l, -1)
+			_, err = r.Do("LTRIM", k, l, -1)
+			if err != nil {
+				fmt.Println(err)
+			}
 			r.Close()
 
 			tmp := []commandData{}

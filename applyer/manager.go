@@ -36,7 +36,7 @@ func (a *managerApplyer) start() {
 		}
 		for _, k := range keys {
 			if _, ok := keyMap[k]; !ok {
-				fmt.Println("New connection (" + k + ") is detected, " + strconv.Itoa(connCnt) + "is applied")
+				fmt.Println("New connection (" + k + ") is detected, " + strconv.Itoa(connCnt) + " is applied")
 				ips := strings.Split(k, ":")
 				keyMap[k] = connCnt
 				if isIgnoreHosts(ips[1], ignoreHosts) {

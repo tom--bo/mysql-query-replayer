@@ -10,8 +10,6 @@ type commandData struct {
 	ctype        string
 	capturedTime int
 	query        string
-	val1         string
-	val2         string
 }
 
 type Applyer interface {

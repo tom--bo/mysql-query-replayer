@@ -11,7 +11,7 @@ import (
 )
 
 type managerApplyer struct {
-	agents []string
+	agents             []string
 	tooManyConnections bool
 }
 
@@ -58,7 +58,7 @@ func (a *managerApplyer) addHostRequest(num int, key string) error {
 	}
 	agentCnt := len(agents)
 	for i := 0; i < agentCnt; i++ {
-		n := (num+i) % agentCnt
+		n := (num + i) % agentCnt
 		url := "http://" + a.agents[n] + "/addHost/" + key
 		resp, err := http.Post(url, "", nil)
 		body, err := ioutil.ReadAll(resp.Body)

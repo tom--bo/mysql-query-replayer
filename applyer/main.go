@@ -12,15 +12,15 @@ import (
 )
 
 var (
-	name        string
-	managerMode bool
-	agentMode   bool
-	agents      string
-	port        int
-	cpus        int
+	name                  string
+	managerMode           bool
+	agentMode             bool
+	agents                string
+	port                  int
+	cpus                  int
 	ignoreConnectionLimit bool
-	ignoreHostStr string
-	ignoreHosts []string
+	ignoreHostStr         string
+	ignoreHosts           []string
 
 	mHost     string
 	mPort     int
@@ -39,7 +39,6 @@ var (
 	rpool        *redis.Pool
 	timeDiff     = 0
 )
-
 
 func parseOptions() {
 	flag.BoolVar(&timeSensitive, "ts", true, "time sensitive, understand time diff between captured_time and this command's current time")

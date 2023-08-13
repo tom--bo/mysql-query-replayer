@@ -14,7 +14,7 @@ import (
 )
 
 type agentApplyer struct {
-	hostCnt int
+	hostCnt  int
 	cpuLimit int
 }
 
@@ -41,7 +41,6 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 			continue
 		}
 
-
 		r := rpool.Get()
 		queries, err := redis.Strings(r.Do("LRANGE", key, 0, 199))
 		r.Close()
@@ -67,9 +66,9 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 				panic(err)
 			}
 			st := commandData{
-				ctype: val[0],
+				ctype:        val[0],
 				capturedTime: capturedTime,
-				query: val[2],
+				query:        val[2],
 			}
 			tmp = append(tmp, st)
 		}
@@ -177,4 +176,3 @@ func (a *agentApplyer) agentServer() {
 	addr := ":" + strconv.Itoa(port)
 	e.Logger.Fatal(e.Start(addr))
 }
-

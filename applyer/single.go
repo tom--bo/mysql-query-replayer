@@ -12,9 +12,9 @@ import (
 )
 
 type singleApplyer struct {
-	cpuLimit int
-	m sync.Mutex
-	q []commandData
+	cpuLimit     int
+	m            sync.Mutex
+	q            []commandData
 	hostProgress sync.Map
 }
 
@@ -105,9 +105,9 @@ func (a *singleApplyer) retrieveLoop() {
 					continue
 				}
 				st := commandData{
-					ctype: val[0],
+					ctype:        val[0],
 					capturedTime: capturedTime,
-					query: val[2],
+					query:        val[2],
 				}
 				tmp = append(tmp, st)
 			}
@@ -179,4 +179,3 @@ func (a *singleApplyer) applyLoop() {
 		}
 	}
 }
-

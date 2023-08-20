@@ -93,19 +93,22 @@ func (a *agentApplyer) applyLoop(mq *sync.Mutex, q *[]commandData) {
 	}
 	defer db.Close()
 	var l, ll int
+	var queries []commandData
 
 	for {
 		mq.Lock()
 		ll = len(*q)
-		mq.Unlock()
+
 		if ll == 0 {
+			mq.Unlock()
 			continue
+		} else {
+			queries = make([]commandData, ll)
+			l = copy(queries, *q)
+			*q = []commandData{}
+			mq.Unlock()
 		}
-		mq.Lock()
-		queries := make([]commandData, ll)
-		l = copy(queries, *q)
-		*q = []commandData{}
-		mq.Unlock()
+
 		if timeSensitive && timeDiff == 0 {
 			n := time.Now()
 			if err != nil {

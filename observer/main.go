@@ -36,17 +36,17 @@ var (
 	packetCount int
 
 	ignoreHostStr string
-	ignoreHosts []string
-	mPort      int
+	ignoreHosts   []string
+	mPort         int
 
 	rHost     string
 	rPort     int
 	rPassword string
 	pcapfile  string
 
-	eHost string
-	ePort int
-	eUser string
+	eHost   string
+	ePort   int
+	eUser   string
 	ePasswd string
 
 	rpool   *redis.Pool
@@ -302,7 +302,7 @@ func main() {
 	http.DefaultTransport.(*http.Transport).MaxIdleConnsPerHost = 1000
 
 	parseOptions()
-	ignoreHosts= strings.Split(ignoreHostStr, ",")
+	ignoreHosts = strings.Split(ignoreHostStr, ",")
 
 	// redis client
 	cpus := runtime.NumCPU() * cpuRate / 2 // Need to experimentations

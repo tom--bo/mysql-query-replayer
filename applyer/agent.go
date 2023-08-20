@@ -14,7 +14,7 @@ import (
 )
 
 type agentApplyer struct {
-	hostCnt int
+	hostCnt  int
 	cpuLimit int
 }
 
@@ -41,7 +41,6 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 			continue
 		}
 
-
 		r := rpool.Get()
 		queries, err := redis.Strings(r.Do("LRANGE", key, 0, 199))
 		r.Close()
@@ -55,7 +54,10 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 		}
 
 		r = rpool.Get()
-		r.Do("LTRIM", key, l, -1)
+		_, err = r.Do("LTRIM", key, l, -1)
+		if err != nil {
+			fmt.Println(err)
+		}
 		r.Close()
 
 		tmp := []commandData{}
@@ -67,9 +69,9 @@ func (a *agentApplyer) retrieveLoop(key string, m *sync.Mutex, q *[]commandData)
 				panic(err)
 			}
 			st := commandData{
-				ctype: val[0],
+				ctype:        val[0],
 				capturedTime: capturedTime,
-				query: val[2],
+				query:        val[2],
 			}
 			tmp = append(tmp, st)
 		}
@@ -91,19 +93,22 @@ func (a *agentApplyer) applyLoop(mq *sync.Mutex, q *[]commandData) {
 	}
 	defer db.Close()
 	var l, ll int
+	var queries []commandData
 
 	for {
 		mq.Lock()
 		ll = len(*q)
-		mq.Unlock()
+
 		if ll == 0 {
+			mq.Unlock()
 			continue
+		} else {
+			queries = make([]commandData, ll)
+			l = copy(queries, *q)
+			*q = []commandData{}
+			mq.Unlock()
 		}
-		mq.Lock()
-		queries := make([]commandData, ll)
-		l = copy(queries, *q)
-		*q = []commandData{}
-		mq.Unlock()
+
 		if timeSensitive && timeDiff == 0 {
 			n := time.Now()
 			if err != nil {
@@ -177,4 +182,3 @@ func (a *agentApplyer) agentServer() {
 	addr := ":" + strconv.Itoa(port)
 	e.Logger.Fatal(e.Start(addr))
 }
-

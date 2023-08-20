@@ -11,7 +11,7 @@ import (
 )
 
 type managerApplyer struct {
-	agents []string
+	agents             []string
 	tooManyConnections bool
 }
 
@@ -36,14 +36,19 @@ func (a *managerApplyer) start() {
 		}
 		for _, k := range keys {
 			if _, ok := keyMap[k]; !ok {
-				fmt.Println("New connection (" + k + ") is detected, " + strconv.Itoa(connCnt) + "is applied")
+				fmt.Println("New connection (" + k + ") is detected, " + strconv.Itoa(connCnt) + " is applied")
 				ips := strings.Split(k, ":")
 				keyMap[k] = connCnt
 				if isIgnoreHosts(ips[1], ignoreHosts) {
 					fmt.Println(ips[1] + " is specified as ignoring host")
 					continue
 				}
-				go a.addHostRequest(connCnt, k)
+				go func() {
+					err = a.addHostRequest(connCnt, k)
+					if err != nil {
+						fmt.Printf("%v\n", err)
+					}
+				}()
 				connCnt = (connCnt + 1) % agentCnt
 			}
 		}
@@ -58,9 +63,13 @@ func (a *managerApplyer) addHostRequest(num int, key string) error {
 	}
 	agentCnt := len(agents)
 	for i := 0; i < agentCnt; i++ {
-		n := (num+i) % agentCnt
+		n := (num + i) % agentCnt
 		url := "http://" + a.agents[n] + "/addHost/" + key
 		resp, err := http.Post(url, "", nil)
+		if err != nil {
+			panic(err)
+		}
+
 		body, err := ioutil.ReadAll(resp.Body)
 		if err != nil {
 			panic(err)

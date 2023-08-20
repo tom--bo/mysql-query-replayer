@@ -2,10 +2,10 @@ package main
 
 import (
 	"database/sql"
-	_ "github.com/go-sql-driver/mysql"
 	"errors"
 	"flag"
 	"fmt"
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/gopacket"
 	"github.com/google/gopacket/layers"
 	"github.com/google/gopacket/pcap"
@@ -25,7 +25,7 @@ var (
 
 	handle      *pcap.Handle
 	packetCount int
-	pcapfile  string
+	pcapfile    string
 
 	db            *sql.DB
 	mHost         string
@@ -33,9 +33,9 @@ var (
 	mUser         string
 	mPassword     string
 	ignoreHostStr string
-	ignoreHosts []string
+	ignoreHosts   []string
 
-	mdb           string
+	mdb string
 )
 
 type MySQLPacketInfo struct {
@@ -99,7 +99,7 @@ func getMySQLPacketInfo(packet gopacket.Packet) (MySQLPacketInfo, error) {
 
 func checkReadQuery(q string) bool {
 	q = strings.TrimSpace(q)
-	if strings.HasPrefix(q, "select") || strings.HasPrefix(q, "SELECT") { 
+	if strings.HasPrefix(q, "select") || strings.HasPrefix(q, "SELECT") {
 		return true
 	}
 	return false
@@ -143,7 +143,6 @@ func makeOneLine(q string) string {
 
 	return q
 }
-
 
 func printQuery(packet gopacket.Packet) error {
 	applicationLayer := packet.ApplicationLayer()

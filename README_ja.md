@@ -193,9 +193,7 @@ go run main.go -M -agents 10.127.149.16:6060,10.127.156.69:6060,10.127.56.106:60
 | rh <host> | Redis Host, Redisのホストを指定 |
 | rP <port> | Redis Port, Redisのportを指定 |
 | rp <password> | Redis Password, Redisのpasswordを指定 |
-|  |  |
-
-
+| ignore-limit | Agent が受け持つコネクション数の制限を外す, デフォルトは vCPU x 3 に制限されている |
 
 ## mpReader
 

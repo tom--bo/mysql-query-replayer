@@ -7,11 +7,9 @@ import (
 )
 
 type commandData struct {
-	ctype string
+	ctype        string
 	capturedTime int
-	query string
-	val1  string
-	val2  string
+	query        string
 }
 
 type Applyer interface {
@@ -54,8 +52,8 @@ func newPool(addr string) *redis.Pool {
 	}
 
 	return &redis.Pool{
-		MaxIdle:     cpus * 10+1,
-		MaxActive:   cpus * 10+1,
+		MaxIdle:     cpus*10 + 1,
+		MaxActive:   cpus*10 + 1,
 		IdleTimeout: 2 * time.Second,
 		Dial:        f,
 	}
@@ -69,4 +67,3 @@ func isIgnoreHosts(ip string, ignoreHosts []string) bool {
 	}
 	return false
 }
-

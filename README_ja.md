@@ -17,7 +17,7 @@ Observerで取得したMySQLのクエリをQueuing MWへ転送し、Applyerが�
 ## Queuing MW
 
 - redis 1台を使用
-- connectionをkey, パケットが到達した時刻のuinix timestampをscoreとしたsorted_setでクエリを保持している
+- connectionをkey, パケットが到達した時刻のunix timestampをscoreとしたsorted_setでクエリを保持している
   - 検証用ツールなので, redisの冗長化は考慮していない
 
 
@@ -184,7 +184,7 @@ go run main.go -M -agents 10.127.149.16:6060,10.127.156.69:6060,10.127.56.106:60
 | M | Manager MODEで起動する。 同時に-agentオプションを指定する必要があり、これで指定されたエージェントに対してコネクションを指定すマネージャとして起動する。このモードではqueueからの取得や取得したコマンドのTarget MySQLへの適用は行わない。 |
 | A | Agent MODEで起動する。Manager MODEのプロセスより先に起動する必要がある。Agentとしてデフォルト6060　portでManagerからの支持を待機し、受け取ったコネクションのコマンドを適用する。 |
 | agents | Manager MODEで起動する際にAgent MODEで起動しているホストを指定するオプション。コマンド区切りでhostIP:portを複数指定可能。Manager MODEで起動するプロセスで指定が必須。 |
-| p | Agent MODEでManegerからの支持を待機するポートを指定する。デフォルト6060。Agent MODEを変更した場合はManager MODEでもportをあわせる必要がある。 |
+| p | Agent MODEでManagerからの支持を待機するポートを指定する。デフォルト6060。Agent MODEを変更した場合はManager MODEでもportをあわせる必要がある。 |
 | mh <host> | MySQL Host, Target MySQLのホストを指定。 |
 | mP <port> | MySQL Port, Target MySQLのポートを指定 |
 | mu <user> | MySQL user, Target MySQLのuserを指定 |

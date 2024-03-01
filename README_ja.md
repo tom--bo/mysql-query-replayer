@@ -17,7 +17,7 @@ Observerで取得したMySQLのクエリをQueuing MWへ転送し、Applyerが�
 ## Queuing MW
 
 - redis 1台を使用
-- connectionをkey, パケットが到達した時刻のuinix timestampをscoreとしたsorted_setでクエリを保持している
+- connectionをkey, パケットが到達した時刻のunix timestampをscoreとしたsorted_setでクエリを保持している
   - 検証用ツールなので, redisの冗長化は考慮していない
 
 
